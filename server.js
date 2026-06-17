@@ -5,8 +5,8 @@ const path = require('path');
 const crypto = require('crypto');
 
 // --- Конфигурация ---
-const PORT = 3000;
-const HOST = 'localhost';
+const PORT = process.env.PORT || 3000;
+const HOST = '0.0.0.0';
 const DATA_FILE = path.join(__dirname, 'data.json');
 const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 минут
 const BRUTE_FORCE_TIMEOUT = 15 * 60 * 1000; // 15 минут
@@ -23,13 +23,18 @@ function loadDatabase() {
             console.log('✅ База данных загружена.');
         } else {
             console.log('📁 Файл базы данных не найден. Создаем новый...');
-            // Создаем тестового пользователя
+            db = { users: {}, orders: [] };
+        }
+        
+        // ✅ ВСЕГДА создаем тестового пользователя (если его нет)
+        if (!db.users['admin@example.com']) {
             registerUser('Администратор', 'admin@example.com', 'admin123');
             console.log('👤 Создан тестовый пользователь: admin@example.com / admin123');
         }
     } catch (error) {
         console.error('❌ Ошибка загрузки базы данных:', error);
         db = { users: {}, orders: [] };
+        registerUser('Администратор', 'admin@example.com', 'admin123');
     }
 }
 
@@ -447,12 +452,11 @@ const server = http.createServer((req, res) => {
 loadDatabase();
 
 server.listen(PORT, HOST, () => {
-    console.log(`\n🚀 Сервер запущен: http://${HOST}:${PORT}`);
+    console.log(`\n🚀 Сервер запущен на порту ${PORT}`);
     console.log(`📊 База данных: ${DATA_FILE}`);
     console.log(`👤 Тестовый пользователь: admin@example.com / admin123`);
-    console.log(`🔒 Блокировка после ${MAX_LOGIN_ATTEMPTS} неудачных попыток на ${BRUTE_FORCE_TIMEOUT/60000} минут\n`);
+    console.log(`🔒 Блокировка после ${MAX_LOGIN_ATTEMPTS} неудачных попыток\n`);
 });
-
 // Обработка завершения
 process.on('SIGINT', () => {
     console.log('\n💾 Сохранение базы данных...');
