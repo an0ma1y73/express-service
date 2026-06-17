@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог - Экспресс-Сервис</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.6rem;
+        }
+
+        .navbar-brand span {
+            color: #e85d04;
+        }
+
+        .btn-orange {
+            background: #e85d04;
+            color: white;
+            border-radius: 50px;
+            padding: 6px 20px;
+            font-weight: 600;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .btn-orange:hover {
+            background: #bb3e03;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-orange {
+            border: 2px solid #e85d04;
+            color: #e85d04;
+            background: transparent;
+            border-radius: 50px;
+            padding: 6px 20px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-outline-orange:hover {
+            background: #e85d04;
+            color: white;
+        }
+
+        .btn-sm-orange {
+            background: #e85d04;
+            color: white;
+            border-radius: 50px;
+            padding: 6px 20px;
+            font-weight: 600;
+            border: none;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-sm-orange:hover {
+            background: #bb3e03;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .card-equip {
+            transition: 0.3s;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .card-equip:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-img-top {
+            height: 200px;
+            overflow: hidden;
+            background: #f0f0f0;
+            position: relative;
+        }
+
+        .card-img-top img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .card-equip:hover .card-img-top img {
+            transform: scale(1.05);
+        }
+
+        .card-img-top .no-image {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: #f0f0f0;
+            color: #999;
+            font-size: 48px;
+        }
+
+        .card-img-top .no-image small {
+            font-size: 14px;
+            margin-top: 10px;
+            color: #666;
+        }
+
+        .price-badge {
+            background: #e85d04;
+            color: white;
+            padding: 3px 12px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .section-white {
+            background: #ffffff;
+            border-radius: 30px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        footer {
+            background: #1a1a1a;
+            color: #aaa;
+        }
+
+        .footer-link {
+            color: #aaa;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-link:hover {
+            color: #e85d04;
+        }
+
+        .social-icon {
+            width: 38px;
+            height: 38px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+
+        .social-icon:hover {
+            background: #e85d04;
+            transform: translateY(-3px);
+        }
+
+        .social-icon i {
+            font-size: 18px;
+            color: white;
+        }
+
+        .form-control-lg {
+            border-radius: 15px;
+            border: 1px solid #ddd;
+        }
+
+        .form-control-lg:focus {
+            border-color: #e85d04;
+            box-shadow: 0 0 0 0.2rem rgba(232, 93, 4, 0.25);
+        }
+
+        .modal-image-container {
+            width: 100%;
+            max-height: 350px;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #f0f0f0;
+        }
+
+        .modal-image-container img {
+            width: 100%;
+            height: 100%;
+            max-height: 350px;
+            object-fit: contain;
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: #e85d04;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(232, 93, 4, 0.3);
+            transition: 0.3s;
+            display: none;
+            z-index: 1000;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(232, 93, 4, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .section-white {
+                padding: 20px;
+            }
+
+            .card-img-top {
+                height: 160px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/">Экспресс<span>-Сервис</span></a>
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu"><span
+                    class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Главная</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/catalog">Каталог</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">О нас</a></li>
+                </ul>
+                <div id="authBlock"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-5 mt-4">
+        <div class="container py-4">
+            <div class="section-white">
+                <div class="mb-4">
+                    <h2 class="fw-bold">Каталог оборудования</h2>
+                    <div class="row mt-3">
+                        <div class="col-md-5"><input type="text" id="searchInput"
+                                class="form-control form-control-lg rounded-pill" placeholder="Поиск по названию"></div>
+                    </div>
+                </div>
+                <div class="row g-4" id="catalogGrid"></div>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal fade" id="equipmentModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="modalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body pt-0">
+                    <div class="modal-image-container mb-3">
+                        <img id="modalImage" src="" alt="Оборудование" onerror="this.style.display='none'">
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="h2 fw-bold" style="color:#e85d04" id="modalPrice"></span>
+                        <span class="badge bg-success" id="modalStock">В наличии</span>
+                    </div>
+                    <p id="modalDesc" class="text-secondary"></p>
+                    <hr>
+                    <h6 class="fw-bold">Характеристики:</h6>
+                    <ul id="modalSpecs" class="small"></ul>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button class="btn btn-orange w-100 py-2" onclick="rentFromModal()">Арендовать</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Кнопка "Вверх" -->
+    <button id="scrollTopBtn" class="scroll-top" onclick="scrollToTop()">
+        <i class="bi bi-chevron-up"></i>
+    </button>
+
+    <footer class="bg-dark text-white-50 pt-4 pb-4 mt-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <div class="small">2025 ООО «Экспресс-Сервис» | Москва, ул. Пушкина, д. Колотушкина | +7 (495)
+                        123-45-67
+                    </div>
+                </div>
+                <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
+                    <div class="d-flex gap-3 justify-content-center justify-content-md-end">
+                        <a href="#" class="social-icon"><i class="bi bi-telegram"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-whatsapp"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const allEquipment = [
+            {
+                id: 1,
+                name: "Перфоратор Makita HR2470",
+                price: 550,
+                power: "780 Вт",
+                desc: "Мощный перфоратор для бурения бетона, кирпича и камня. Идеален для штробления стен.",
+                specs: ["Мощность: 780 Вт", "Диаметр бурения: 27 мм", "Энергия удара: 2.7 Дж", "Вес: 2.4 кг"],
+                inStock: true,
+                image: "images/perforator.jpg"
+            },
+            {
+                id: 2,
+                name: "Виброплита RS-800",
+                price: 1200,
+                power: "5.5 л.с.",
+                desc: "Реверсивная виброплита для уплотнения грунта, щебня и асфальта.",
+                specs: ["Центробежная сила: 18 кН", "Ширина плиты: 50 см", "Двигатель: бензиновый", "Вес: 95 кг"],
+                inStock: true,
+                image: "images/vibroplate.jpg"
+            },
+            {
+                id: 3,
+                name: "Генератор 5 кВт",
+                price: 1100,
+                power: "5 кВт",
+                desc: "Дизельный генератор для питания инструмента на объектах без электричества.",
+                specs: ["Мощность: 5 кВт", "Розетки: 230В и 380В", "Автоматический запуск"],
+                inStock: true,
+                image: "images/generator.jpg"
+            },
+            {
+                id: 4,
+                name: "Бетоносмеситель 200л",
+                price: 700,
+                power: "750 Вт",
+                desc: "Электрический бетоносмеситель для бетона и растворов.",
+                specs: ["Объем: 200 л", "Мощность: 750 Вт", "Частота вращения: 28 об/мин"],
+                inStock: true,
+                image: "images/mixer.jpg"
+            },
+            {
+                id: 5,
+                name: "Штроборез Makita",
+                price: 800,
+                power: "1400 Вт",
+                desc: "Для штроб под проводку и трубы.",
+                specs: ["Мощность: 1400 Вт", "Глубина реза: 25 мм", "Алмазные диски в комплекте"],
+                inStock: true,
+                image: "images/shtroborez.jpg"
+            },
+            {
+                id: 6,
+                name: "Отбойник Bosch",
+                price: 950,
+                power: "1500 Вт",
+                desc: "Для демонтажа и дробления бетона.",
+                specs: ["Мощность: 1500 Вт", "Энергия удара: 55 Дж", "Вес: 8.2 кг"],
+                inStock: true,
+                image: "images/otboynik.jpg"
+            }
+        ];
+
+        let currentModalItem = null;
+
+        function renderCatalog(filter = '') {
+            const filtered = allEquipment.filter(e => e.name.toLowerCase().includes(filter.toLowerCase()));
+            const grid = document.getElementById('catalogGrid');
+            grid.innerHTML = filtered.map(item => `
+                <div class="col-md-6 col-lg-4">
+                    <div class="card card-equip h-100" onclick="showEquipmentModal(${item.id})">
+                        <div class="card-img-top">
+                            <img src="${item.image}" 
+                                 alt="${item.name}"
+                                 onerror="this.parentElement.innerHTML='<div class=\\'no-image\\'><i class=\\'bi bi-tools\\'></i><small>${item.name}</small></div>'">
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="fw-bold">${item.name}</h5>
+                                <span class="price-badge">${item.price} руб</span>
+                            </div>
+                            <p class="text-secondary small">${item.desc.substring(0, 80)}...</p>
+                            <div class="mt-3"><small class="text-muted"><i class="bi bi-lightning"></i> ${item.power}</small></div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showEquipmentModal(id) {
+            const item = allEquipment.find(e => e.id === id);
+            if (!item) return;
+            currentModalItem = item;
+
+            document.getElementById('modalTitle').innerText = item.name;
+            document.getElementById('modalPrice').innerHTML = item.price + ' ₽ <small class="fs-6 text-secondary">/ день</small>';
+            document.getElementById('modalDesc').innerText = item.desc;
+            document.getElementById('modalStock').innerText = item.inStock ? 'В наличии' : 'Нет в наличии';
+            document.getElementById('modalStock').className = `badge ${item.inStock ? 'bg-success' : 'bg-danger'}`;
+
+            const modalImg = document.getElementById('modalImage');
+            if (item.image) {
+                modalImg.src = item.image;
+                modalImg.style.display = 'block';
+                modalImg.onerror = function () { this.style.display = 'none'; };
+            } else {
+                modalImg.style.display = 'none';
+            }
+
+            const specsList = document.getElementById('modalSpecs');
+            specsList.innerHTML = item.specs.map(spec => `<li>${spec}</li>`).join('');
+
+            const modal = new bootstrap.Modal(document.getElementById('equipmentModal'));
+            modal.show();
+        }
+
+        async function rentFromModal() {
+            const auth = await checkAuthStatus();
+            if (!auth) {
+                alert('Войдите в аккаунт для аренды оборудования');
+                location.href = '/login';
+                return;
+            }
+            alert(`Заявка на аренду "${currentModalItem.name}" отправлена. Менеджер свяжется с вами.`);
+            const modal = bootstrap.Modal.getInstance(document.getElementById('equipmentModal'));
+            modal.hide();
+        }
+
+        async function checkAuthStatus() {
+            try {
+                const response = await fetch('/api/me');
+                const data = await response.json();
+                return data.authenticated;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/me');
+                const data = await response.json();
+                const authBlock = document.getElementById('authBlock');
+
+                if (data.authenticated) {
+                    authBlock.innerHTML = `
+                        <span class="me-2 small">${data.user.name}</span>
+                        <button class="btn btn-sm btn-danger rounded-pill" onclick="logout()">Выйти</button>
+                    `;
+                } else {
+                    authBlock.innerHTML = `
+                        <a href="/login" class="btn btn-sm btn-orange rounded-pill me-2">Вход</a>
+                        <a href="/register" class="btn btn-sm btn-outline-orange rounded-pill">Регистрация</a>
+                    `;
+                }
+            } catch (error) {
+                console.error('Ошибка проверки авторизации:', error);
+            }
+        }
+
+        async function logout() {
+            await fetch('/api/logout', { method: 'POST' });
+            window.location.reload();
+        }
+
+        // Кнопка "Вверх"
+        window.addEventListener('scroll', function () {
+            const btn = document.getElementById('scrollTopBtn');
+            if (window.scrollY > 300) {
+                btn.style.display = 'block';
+            } else {
+                btn.style.display = 'none';
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.getElementById('searchInput')?.addEventListener('input', e => renderCatalog(e.target.value));
+        renderCatalog();
+        checkAuth();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Описание - Экспресс-Сервис</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.6rem;
+        }
+
+        .navbar-brand span {
+            color: #e85d04;
+        }
+
+        .btn-orange {
+            background: #e85d04;
+            color: white;
+            border-radius: 50px;
+            padding: 10px 30px;
+            font-weight: 600;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .btn-orange:hover {
+            background: #bb3e03;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-orange {
+            border: 2px solid #e85d04;
+            color: #e85d04;
+            background: transparent;
+            border-radius: 50px;
+            padding: 8px 25px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-outline-orange:hover {
+            background: #e85d04;
+            color: white;
+        }
+
+        .btn-sm-orange {
+            background: #e85d04;
+            color: white;
+            border-radius: 50px;
+            padding: 6px 20px;
+            font-weight: 600;
+            border: none;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-sm-orange:hover {
+            background: #bb3e03;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: #e85d04;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(232, 93, 4, 0.3);
+            transition: 0.3s;
+            display: none;
+            z-index: 1000;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(232, 93, 4, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand fixed-top bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/">Экспресс<span>-Сервис</span></a>
+            <div class="ms-auto d-flex gap-3 align-items-center">
+                <a href="/about" class="text-decoration-none text-dark small">О нас</a>
+                <div id="authBlock"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-5 mt-4">
+        <div class="container py-4" id="equipmentContent"></div>
+    </main>
+
+    <!-- Кнопка "Вверх" -->
+    <button id="scrollTopBtn" class="scroll-top" onclick="scrollToTop()">
+        <i class="bi bi-chevron-up"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const equipmentDB = [
+            { id: 1, name: "Перфоратор Makita HR2470", price: 550, power: "780 Вт", weight: "2.4 кг", desc: "Мощный перфоратор для бетона, кирпича и камня. Идеален для штробления стен и сверления отверстий.", specs: ["Мощность: 780 Вт", "Диаметр бурения: 27 мм", "Энергия удара: 2.7 Дж", "Вес: 2.4 кг", "Режимы: сверление и удар"], inStock: true },
+            { id: 2, name: "Виброплита RS-800", price: 1200, power: "5.5 л.с.", weight: "95 кг", desc: "Реверсивная виброплита для уплотнения грунта, щебня и асфальта.", specs: ["Центробежная сила: 18 кН", "Ширина плиты: 50 см", "Двигатель: бензиновый", "Вес: 95 кг", "Реверсивный ход"], inStock: true },
+            { id: 3, name: "Генератор 5 кВт", price: 1100, power: "5 кВт", weight: "85 кг", desc: "Дизельный генератор для питания инструмента на объектах без электричества.", specs: ["Мощность: 5 кВт", "Розетки: 230В и 380В", "Автоматический запуск", "Уровень шума: 68 дБ"], inStock: true },
+            { id: 4, name: "Бетоносмеситель 200л", price: 700, power: "750 Вт", weight: "52 кг", desc: "Электрический бетоносмеситель для бетона и растворов.", specs: ["Объем: 200 л", "Мощность: 750 Вт", "Частота вращения: 28 об/мин", "Барабан из нержавеющей стали"], inStock: true },
+            { id: 5, name: "Штроборез Makita", price: 800, power: "1400 Вт", weight: "4.5 кг", desc: "Для штроб под проводку и трубы.", specs: ["Мощность: 1400 Вт", "Глубина реза: 25 мм", "Алмазные диски в комплекте"], inStock: true },
+            { id: 6, name: "Отбойник Bosch", price: 950, power: "1500 Вт", weight: "8.2 кг", desc: "Для демонтажа и дробления бетона.", specs: ["Мощность: 1500 Вт", "Энергия удара: 55 Дж", "Вес: 8.2 кг"], inStock: true }
+        ];
+
+        function getParam() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return parseInt(urlParams.get('id'));
+        }
+
+        function showEquipment() {
+            const id = getParam();
+            const item = equipmentDB.find(e => e.id === id);
+            const container = document.getElementById('equipmentContent');
+            if (!item) {
+                container.innerHTML = '<div class="alert alert-danger">Оборудование не найдено</div><a href="/catalog" class="btn btn-outline-orange">Вернуться в каталог</a>';
+                return;
+            }
+            container.innerHTML = `
+                <div class="row g-4">
+                    <div class="col-lg-5">
+                        <div class="bg-secondary bg-opacity-10 rounded-4 text-center py-5"><i class="bi bi-tools fs-1 text-secondary"></i></div>
+                    </div>
+                    <div class="col-lg-7">
+                        <nav><ol class="breadcrumb small"><li class="breadcrumb-item"><a href="/" class="text-decoration-none">Главная</a></li><li class="breadcrumb-item"><a href="/catalog" class="text-decoration-none">Каталог</a></li><li class="breadcrumb-item active">${item.name}</li></ol></nav>
+                        <h2 class="fw-bold mb-2">${item.name}</h2>
+                        <div class="h3 fw-bold" style="color:#e85d04">${item.price} рублей <span class="fs-6 text-secondary">в день</span></div>
+                        <div class="my-3"><p class="text-secondary">${item.desc}</p></div>
+                        <div><h6 class="fw-bold">Характеристики</h6><ul class="small">${item.specs.map(s => `<li>${s}</li>`).join('')}</ul></div>
+                        <div class="bg-light rounded-3 p-3 my-3 d-flex justify-content-between"><span>Мощность: <strong>${item.power}</strong></span><span>Вес: <strong>${item.weight}</strong></span><span>${item.inStock ? 'В наличии' : 'Нет в наличии'}</span></div>
+                        <button class="btn btn-orange" onclick="rent(${item.id})" ${!item.inStock ? 'disabled' : ''}>${item.inStock ? 'Арендовать' : 'Нет в наличии'}</button>
+                        <a href="/catalog" class="btn btn-outline-orange mt-2 d-inline-block ms-2">Назад в каталог</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function rent(id) {
+            const auth = await checkAuthStatus();
+            if (!auth) {
+                alert('Войдите в аккаунт для аренды оборудования');
+                location.href = '/login';
+                return;
+            }
+            alert('Заявка на аренду отправлена. Менеджер свяжется с вами.');
+        }
+
+        async function checkAuthStatus() {
+            try {
+                const response = await fetch('/api/me');
+                const data = await response.json();
+                return data.authenticated;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/me');
+                const data = await response.json();
+                const authBlock = document.getElementById('authBlock');
+
+                if (data.authenticated) {
+                    authBlock.innerHTML = `
+                        <span class="me-2 small">${data.user.name}</span>
+                        <button class="btn btn-sm btn-danger rounded-pill" onclick="logout()">Выйти</button>
+                    `;
+                } else {
+                    authBlock.innerHTML = `
+                        <a href="/login" class="btn btn-sm btn-orange rounded-pill me-2">Вход</a>
+                        <a href="/register" class="btn btn-sm btn-outline-orange rounded-pill">Регистрация</a>
+                    `;
+                }
+            } catch (error) {
+                console.error('Ошибка проверки авторизации:', error);
+            }
+        }
+
+        async function logout() {
+            await fetch('/api/logout', { method: 'POST' });
+            window.location.reload();
+        }
+
+        // Кнопка "Вверх"
+        window.addEventListener('scroll', function () {
+            const btn = document.getElementById('scrollTopBtn');
+            if (window.scrollY > 300) {
+                btn.style.display = 'block';
+            } else {
+                btn.style.display = 'none';
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        showEquipment();
+        checkAuth();
+    </script>
+</body>
+
+</html>

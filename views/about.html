@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О нас - Экспресс-Сервис</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.6rem;
+        }
+
+        .navbar-brand span {
+            color: #e85d04;
+        }
+
+        .btn-orange {
+            background: #e85d04;
+            color: white;
+            border-radius: 50px;
+            padding: 6px 20px;
+            font-weight: 600;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .btn-orange:hover {
+            background: #bb3e03;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-orange {
+            border: 2px solid #e85d04;
+            color: #e85d04;
+            background: transparent;
+            border-radius: 50px;
+            padding: 6px 20px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-outline-orange:hover {
+            background: #e85d04;
+            color: white;
+        }
+
+        .btn-sm-orange {
+            background: #e85d04;
+            color: white;
+            border-radius: 50px;
+            padding: 6px 20px;
+            font-weight: 600;
+            border: none;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-sm-orange:hover {
+            background: #bb3e03;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .section-white {
+            background: #ffffff;
+            border-radius: 30px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-light {
+            background: #f8f9fa;
+            border-radius: 30px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: 0.3s;
+            height: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            font-size: 48px;
+            color: #e85d04;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            background: #1a1a1a;
+            color: #aaa;
+        }
+
+        .footer-link {
+            color: #aaa;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-link:hover {
+            color: #e85d04;
+        }
+
+        .social-icon {
+            width: 38px;
+            height: 38px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+
+        .social-icon:hover {
+            background: #e85d04;
+            transform: translateY(-3px);
+        }
+
+        .social-icon i {
+            font-size: 18px;
+            color: white;
+        }
+
+        .map-container {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: #e85d04;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(232, 93, 4, 0.3);
+            transition: 0.3s;
+            display: none;
+            z-index: 1000;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(232, 93, 4, 0.4);
+        }
+
+        @media (max-width: 768px) {
+
+            .section-white,
+            .section-light {
+                padding: 20px;
+            }
+
+            .stat-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/">Экспресс<span>-Сервис</span></a>
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu"><span
+                    class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Главная</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/catalog">Каталог</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/about">О нас</a></li>
+                </ul>
+                <div id="authBlock"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-5 mt-4">
+        <div class="container py-4">
+            <div class="section-light">
+                <div class="row g-4">
+                    <div class="col-lg-4">
+                        <div class="stat-card">
+                            <i class="bi bi-calendar3 stat-icon"></i>
+                            <h3 class="fw-bold mt-2">С 2017 года</h3>
+                            <p class="text-secondary">Работаем на рынке аренды строительного оборудования</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="stat-card">
+                            <i class="bi bi-people stat-icon"></i>
+                            <h3 class="fw-bold mt-2">Более 250 клиентов</h3>
+                            <p class="text-secondary">Постоянных заказчиков доверяют нам</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="stat-card">
+                            <i class="bi bi-tools stat-icon"></i>
+                            <h3 class="fw-bold mt-2">Более 50 единиц</h3>
+                            <p class="text-secondary">Современной техники в парке</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-white">
+                <div class="row g-5 align-items-center">
+                    <div class="col-lg-6">
+                        <img src="./images/sklad.jpg" class="img-fluid rounded-4 shadow" alt="Наш склад">
+                    </div>
+                    <div class="col-lg-6">
+                        <h2 class="fw-bold mb-3">Кто мы</h2>
+                        <p class="text-secondary">ООО "Экспресс-Сервис" - компания по аренде строительного оборудования.
+                            Мы знаем, как важно иметь под рукой исправную технику, когда каждая минута простоя стоит
+                            денег.</p>
+                        <p class="text-secondary mt-3">В нашем парке только проверенное оборудование от ведущих
+                            производителей: Makita, Bosch, RS и других. Перед каждой выдачей техника проходит
+                            технический осмотр.</p>
+                        <div class="mt-4">
+                            <div class="d-flex gap-2 mb-2"><i class="bi bi-check-circle-fill text-success"></i>
+                                <span>Бесплатная доставка по Москве</span>
+                            </div>
+                            <div class="d-flex gap-2 mb-2"><i class="bi bi-check-circle-fill text-success"></i>
+                                <span>Замена техники при поломке за 24 часа</span>
+                            </div>
+                            <div class="d-flex gap-2"><i class="bi bi-check-circle-fill text-success"></i> <span>Полный
+                                    пакет документов для юридических лиц</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-white">
+                <h4 class="fw-bold mb-4">Контакты</h4>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="d-flex gap-3"><i class="bi bi-telephone fs-3 text-warning"></i>
+                            <div><strong>Телефон</strong><br><a href="tel:+74951234567"
+                                    class="text-dark text-decoration-none">+7 (495) 123-45-67</a></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex gap-3"><i class="bi bi-envelope fs-3 text-warning"></i>
+                            <div><strong>Email</strong><br>rent@express-service.ru</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex gap-3"><i class="bi bi-geo-alt fs-3 text-warning"></i>
+                            <div><strong>Адрес</strong><br>Москва, ул. Строителей, 12</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-top">
+                    <div class="d-flex gap-2 mb-3"><i class="bi bi-clock text-warning"></i> <span><strong>Режим
+                                работы:</strong> Ежедневно с 8:00 до 21:00</span></div>
+                    <div class="map-container">
+                        <iframe
+                            src="https://yandex.ru/map-widget/v1/?um=constructor%3A8e3f5a2b1c4d6e7f8g9h0i1j2k3l4m5n&source=constructor"
+                            width="100%" height="250" style="border:0;" allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Кнопка "Вверх" -->
+    <button id="scrollTopBtn" class="scroll-top" onclick="scrollToTop()">
+        <i class="bi bi-chevron-up"></i>
+    </button>
+
+    <footer class="bg-dark text-white-50 pt-4 pb-4 mt-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <div class="small">2025 ООО «Экспресс-Сервис» | Москва, ул. Пушкина, д. Колотушкина | +7 (495)
+                        123-45-67
+                    </div>
+                </div>
+                <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
+                    <div class="d-flex gap-3 justify-content-center justify-content-md-end">
+                        <a href="#" class="social-icon"><i class="bi bi-telegram"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-whatsapp"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/me');
+                const data = await response.json();
+                const authBlock = document.getElementById('authBlock');
+
+                if (data.authenticated) {
+                    authBlock.innerHTML = `
+                        <span class="me-2 small">${data.user.name}</span>
+                        <button class="btn btn-sm btn-danger rounded-pill" onclick="logout()">Выйти</button>
+                    `;
+                } else {
+                    authBlock.innerHTML = `
+                        <a href="/login" class="btn btn-sm btn-orange rounded-pill me-2">Вход</a>
+                        <a href="/register" class="btn btn-sm btn-outline-orange rounded-pill">Регистрация</a>
+                    `;
+                }
+            } catch (error) {
+                console.error('Ошибка проверки авторизации:', error);
+            }
+        }
+
+        async function logout() {
+            await fetch('/api/logout', { method: 'POST' });
+            window.location.reload();
+        }
+
+        // Кнопка "Вверх"
+        window.addEventListener('scroll', function () {
+            const btn = document.getElementById('scrollTopBtn');
+            if (window.scrollY > 300) {
+                btn.style.display = 'block';
+            } else {
+                btn.style.display = 'none';
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        checkAuth();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Экспресс-Сервис - Аренда строительного оборудования</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.8rem;
+        }
+
+        .navbar-brand span {
+            color: #e85d04;
+        }
+
+        .btn-orange {
+            background: #e85d04;
+            color: white;
+            border-radius: 50px;
+            padding: 12px 35px;
+            font-weight: 600;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .btn-orange:hover {
+            background: #bb3e03;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(232, 93, 4, 0.3);
+        }
+
+        .btn-outline-orange {
+            border: 2px solid #e85d04;
+            color: #e85d04;
+            background: transparent;
+            border-radius: 50px;
+            padding: 12px 35px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-outline-orange:hover {
+            background: #e85d04;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-sm-orange {
+            background: #e85d04;
+            color: white;
+            border-radius: 50px;
+            padding: 6px 20px;
+            font-weight: 600;
+            border: none;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-sm-orange:hover {
+            background: #bb3e03;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .card-equip {
+            transition: 0.3s;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .card-equip:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-img-top {
+            height: 220px;
+            overflow: hidden;
+            background: #f0f0f0;
+            position: relative;
+        }
+
+        .card-img-top img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .card-equip:hover .card-img-top img {
+            transform: scale(1.05);
+        }
+
+        .card-img-top .no-image {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: #f0f0f0;
+            color: #999;
+            font-size: 48px;
+        }
+
+        .card-img-top .no-image small {
+            font-size: 14px;
+            margin-top: 10px;
+            color: #666;
+        }
+
+        .price-badge {
+            background: #e85d04;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            padding: 100px 0;
+            margin-top: 70px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .advantage-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(232, 93, 4, 0.1);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+
+        .advantage-icon i {
+            font-size: 32px;
+            color: #e85d04;
+        }
+
+        .section-white {
+            background: #ffffff;
+            border-radius: 30px;
+            padding: 50px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-light {
+            background: #f8f9fa;
+            border-radius: 30px;
+            padding: 50px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        footer {
+            background: #1a1a1a;
+            color: #aaa;
+        }
+
+        .footer-link {
+            color: #aaa;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-link:hover {
+            color: #e85d04;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+
+        .social-icon:hover {
+            background: #e85d04;
+            transform: translateY(-3px);
+        }
+
+        .social-icon i {
+            font-size: 20px;
+            color: white;
+        }
+
+        .map-container {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 350px;
+            border: 0;
+        }
+
+        .contact-info-box {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .modal-image-container {
+            width: 100%;
+            max-height: 350px;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #f0f0f0;
+        }
+
+        .modal-image-container img {
+            width: 100%;
+            height: 100%;
+            max-height: 350px;
+            object-fit: contain;
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: #e85d04;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(232, 93, 4, 0.3);
+            transition: 0.3s;
+            display: none;
+            z-index: 1000;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(232, 93, 4, 0.4);
+        }
+
+        @media (max-width: 768px) {
+
+            .section-white,
+            .section-light {
+                padding: 30px 20px;
+            }
+
+            .hero {
+                padding: 50px 0;
+            }
+
+            .btn-orange,
+            .btn-outline-orange {
+                padding: 8px 20px;
+                font-size: 14px;
+            }
+
+            .map-container iframe {
+                height: 250px;
+            }
+
+            .card-img-top {
+                height: 160px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/#">Экспресс<span>-Сервис</span></a>
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" href="/#">Главная</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#advantages">Преимущества</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contacts">Контакты</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/catalog">Каталог</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">О нас</a></li>
+                </ul>
+                <div id="authBlock"></div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="bg-white px-4 py-2 rounded-pill shadow-sm d-inline-flex gap-2 mb-4">
+                        <i class="bi bi-truck text-warning"></i>
+                        <span class="small fw-bold">Бесплатная доставка от 3 дней аренды</span>
+                    </div>
+                    <h1 class="display-4 fw-bold mb-4">Аренда <span style="color:#e85d04">строительного
+                            оборудования</span> в Москве и области</h1>
+                    <p class="lead text-secondary mb-4">Перфораторы, виброплиты, генераторы, бетоносмесители — от 1 дня.
+                        Вся техника проверена, сервис 24/7.</p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="/catalog" class="btn btn-orange">Выбрать технику</a>
+                        <button class="btn btn-outline-orange" data-bs-toggle="modal"
+                            data-bs-target="#requestModal">Получить консультацию</button>
+                    </div>
+                    <div class="mt-4 d-flex gap-4 flex-wrap">
+                        <div><i class="bi bi-check-circle-fill text-success"></i> Без залога для юр. лиц</div>
+                        <div><i class="bi bi-shield-check text-success"></i> Страховка включена</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img src="./images/arenda.jpg" class="img-fluid rounded-4 shadow-lg" alt="Строительная техника">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container py-5">
+        <div class="section-white">
+            <div class="text-center mb-5">
+                <span class="badge bg-warning bg-opacity-10 text-warning px-3 py-2 rounded-pill mb-2"><i
+                        class="bi bi-tools"></i> КАТАЛОГ</span>
+                <h2 class="display-6 fw-bold">Популярное оборудование</h2>
+                <p class="text-secondary w-75 mx-auto">Современный парк техники. Гарантия исправности, замена в день
+                    обращения.</p>
+            </div>
+            <div class="row g-4" id="mainEquipment"></div>
+            <div class="text-center mt-5">
+                <a href="/catalog" class="btn btn-outline-orange rounded-pill px-4">Смотреть полный каталог (35+
+                    позиций)</a>
+            </div>
+        </div>
+
+        <div id="advantages" class="section-light">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6">
+                    <div class="mb-4">
+                        <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill mb-2">ПОЧЕМУ
+                            МЫ</span>
+                        <h2 class="fw-bold mb-4">Работаем на результат: 7 лет в аренде строительной техники</h2>
+                        <p class="text-secondary mb-4">ООО "Экспресс-Сервис" — надежный партнер строительных бригад и
+                            подрядчиков. Каждую единицу техники обслуживаем после каждого клиента.</p>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-sm-6">
+                            <div class="advantage-icon"><i class="bi bi-clock-history"></i></div>
+                            <h5 class="fw-bold">Срочная выдача за 1 час</h5>
+                            <p class="text-secondary">Оформление договора онлайн, доставка по Москве и области в день
+                                заказа.
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="advantage-icon"><i class="bi bi-wrench"></i></div>
+                            <h5 class="fw-bold">Сервисная поддержка</h5>
+                            <p class="text-secondary">Бесплатная замена оборудования при поломке в течение 24 часов.</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="advantage-icon"><i class="bi bi-calculator-fill"></i></div>
+                            <h5 class="fw-bold">Прозрачные цены</h5>
+                            <p class="text-secondary">Фиксированная стоимость, без скрытых комиссий. Скидки от 5 суток
+                                аренды.</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="advantage-icon"><i class="bi bi-shield-fill-check"></i></div>
+                            <h5 class="fw-bold">Все документы</h5>
+                            <p class="text-secondary">Заключаем договор, выдаем закрывающие документы для юр. лиц и ИП.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="bg-white rounded-4 p-4 shadow-sm h-100">
+                        <div class="d-flex gap-3 align-items-center mb-4">
+                            <i class="bi bi-people fs-1" style="color: #e85d04;"></i>
+                            <div><span class="fw-bold fs-2">250+</span> <br>постоянных клиентов</div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Довольных клиентов</span>
+                                <span>98%</span>
+                            </div>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-warning" style="width: 98%;"></div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Возврат техники вовремя</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-warning" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                        <p class="fst-italic mt-3 text-secondary border-top pt-3">
+                            <i class="bi bi-chat-quote"></i> «Техника всегда исправна, привозят точно в срок. Рекомендую
+                            Экспресс-Сервис как проверенного партнера»
+                            <br><span class="small">— ООО "Строй-Мастер"</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="contacts" class="section-white">
+            <div class="row g-5">
+                <div class="col-lg-6">
+                    <h3 class="fw-bold mb-3">Оформить заявку на аренду</h3>
+                    <p class="text-secondary mb-4">Менеджер свяжется с вами для уточнения деталей и резервирования
+                        техники.</p>
+
+                    <!-- Сообщение для неавторизованных -->
+                    <div id="authMessage" class="alert alert-warning" style="display: none;">
+                        Для отправки заявки <a href="/login" class="alert-link">войдите</a> или
+                        <a href="/register" class="alert-link">зарегистрируйтесь</a>.
+                    </div>
+
+                    <form id="callbackForm" style="display: none;">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Ваше имя</label>
+                            <input type="text" name="name" id="cbName" class="form-control form-control-lg rounded-3"
+                                placeholder="Алексей" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Телефон</label>
+                            <input type="tel" name="phone" id="cbPhone" class="form-control form-control-lg rounded-3"
+                                placeholder="+7 (___) ___-__-__" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Оборудование или вопрос</label>
+                            <select id="cbEquipment" class="form-select form-select-lg rounded-3">
+                                <option>Перфоратор Makita</option>
+                                <option>Виброплита RS-800</option>
+                                <option>Генератор 5 кВт</option>
+                                <option>Бетоносмеситель 200 л</option>
+                                <option>Другое оборудование</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Дополнительный комментарий</label>
+                            <textarea id="cbComment" rows="2" class="form-control"
+                                placeholder="Срок аренды, нужна ли доставка..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-orange w-100 py-3 fs-6">Отправить заявку</button>
+                        <div class="form-text text-center mt-2"><i class="bi bi-lock"></i> Гарантируем
+                            конфиденциальность</div>
+                    </form>
+                </div>
+                <div class="col-lg-6">
+                    <div class="ps-lg-4">
+                        <span class="badge bg-dark bg-opacity-10 mb-2 px-3 py-2 rounded-pill"><i
+                                class="bi bi-pin-map-fill"></i> КОНТАКТЫ</span>
+                        <h2 class="fw-bold display-6">Свяжитесь с нами</h2>
+                        <p class="mb-4 text-secondary">Остались вопросы? Подберем оборудование под вашу задачу. Работаем
+                            ежедневно с 8:00 до 21:00.</p>
+                        <div class="contact-info-box">
+                            <div class="d-flex flex-column gap-3">
+                                <div class="d-flex gap-3 align-items-center">
+                                    <i class="bi bi-telephone-outbound fs-3 text-warning"></i>
+                                    <div><span class="fw-bold">Телефон / WhatsApp</span><br><a href="tel:+74951234567"
+                                            class="text-dark text-decoration-none fw-semibold">+7 (495) 123-45-67</a>
+                                    </div>
+                                </div>
+                                <div class="d-flex gap-3 align-items-center">
+                                    <i class="bi bi-envelope fs-3 text-warning"></i>
+                                    <div><span class="fw-bold">Email</span><br><a href="mailto:rent@express-service.ru"
+                                            class="text-decoration-none">rent@express-service.ru</a></div>
+                                </div>
+                                <div class="d-flex gap-3 align-items-center">
+                                    <i class="bi bi-geo-alt fs-3 text-warning"></i>
+                                    <div><span class="fw-bold">Склад и офис</span><br>г. Москва, ул. Пушкина, д.
+                                        Колотушкина</div>
+                                </div>
+                                <div class="d-flex gap-3 align-items-center">
+                                    <i class="bi bi-clock fs-3 text-warning"></i>
+                                    <div><span class="fw-bold">Режим работы</span><br>Пн-Вс: 08:00 – 21:00 (без
+                                        выходных)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="map-container">
+                <iframe
+                    src="https://yandex.ru/map-widget/v1/?um=constructor%3A8e3f5a2b1c4d6e7f8g9h0i1j2k3l4m5n&source=constructor"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <div class="section-light">
+            <div class="row g-4 text-center">
+                <div class="col-md-3 col-6">
+                    <div class="advantage-icon mx-auto"><i class="bi bi-clock"></i></div>
+                    <h5 class="fw-bold mt-2">Выдача за час</h5>
+                    <p class="small text-secondary">Оформление договора онлайн</p>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="advantage-icon mx-auto"><i class="bi bi-truck"></i></div>
+                    <h5 class="fw-bold mt-2">Доставка за 2 часа</h5>
+                    <p class="small text-secondary">По Москве и области</p>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="advantage-icon mx-auto"><i class="bi bi-wrench"></i></div>
+                    <h5 class="fw-bold mt-2">Сервис 24/7</h5>
+                    <p class="small text-secondary">Замена при поломке</p>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="advantage-icon mx-auto"><i class="bi bi-file-text"></i></div>
+                    <h5 class="fw-bold mt-2">Все документы</h5>
+                    <p class="small text-secondary">Для юр. лиц и ИП</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="equipmentModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="modalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body pt-0">
+                    <div class="modal-image-container mb-3">
+                        <img id="modalImage" src="" alt="Оборудование" onerror="this.style.display='none'">
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="h2 fw-bold" style="color:#e85d04" id="modalPrice"></span>
+                        <span class="badge bg-success" id="modalStock">В наличии</span>
+                    </div>
+                    <p id="modalDesc" class="text-secondary"></p>
+                    <hr>
+                    <h6 class="fw-bold">Характеристики:</h6>
+                    <ul id="modalSpecs" class="small"></ul>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button class="btn btn-orange w-100 py-2" onclick="rentFromModal()">Арендовать</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Кнопка "Вверх" -->
+    <button id="scrollTopBtn" class="scroll-top" onclick="scrollToTop()">
+        <i class="bi bi-chevron-up"></i>
+    </button>
+
+    <footer class="bg-dark text-white-50 pt-5 pb-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="text-white fw-bold mb-3">Экспресс-Сервис</h5>
+                    <p class="small">Аренда строительного оборудования в Москве. Честно, быстро, с заботой о вашем
+                        проекте.</p>
+                    <p class="small mb-0">2026 ООО «Экспресс-Сервис»</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h6 class="text-white fw-bold mb-3">Навигация</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="/" class="footer-link">Главная</a></li>
+                        <li class="mt-2"><a href="/catalog" class="footer-link">Каталог техники</a></li>
+                        <li class="mt-2"><a href="/about" class="footer-link">О компании</a></li>
+                        <li class="mt-2"><a href="#advantages" class="footer-link">Преимущества</a></li>
+                        <li class="mt-2"><a href="#contacts" class="footer-link">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h6 class="text-white fw-bold mb-3">Оборудование</h6>
+                    <ul class="list-unstyled small">
+                        <li>Перфораторы и отбойники</li>
+                        <li>Виброплиты и трамбовки</li>
+                        <li>Электростанции</li>
+                        <li>Бетономешалки</li>
+                        <li>Штроборезы и лебедки</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="bg-secondary mt-3">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <div class="small">Сайт создан для удобного заказа строительной техники. Цены указаны как
+                        ориентировочные, актуальные условия уточняйте у менеджеров.</div>
+                </div>
+                <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
+                    <div class="d-flex gap-3 justify-content-center justify-content-md-end">
+                        <a href="#" class="social-icon"><i class="bi bi-telegram"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-whatsapp"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="requestModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold">Заказать звонок</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body pt-0">
+                    <p class="text-secondary small">Менеджер свяжется с вами в течение 5 минут</p>
+                    <form id="modalForm">
+                        <div class="mb-3"><input type="text" id="modalName" class="form-control" placeholder="Имя"
+                                required></div>
+                        <div class="mb-3"><input type="tel" id="modalPhone" class="form-control" placeholder="Телефон"
+                                required></div>
+                        <button type="submit" class="btn btn-orange w-100">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const equipmentList = [
+            {
+                id: 1,
+                name: "Перфоратор Makita HR2470",
+                price: 550,
+                power: "780 Вт",
+                desc: "Мощный перфоратор для бурения бетона, кирпича и камня. Идеален для штробления стен и сверления отверстий.",
+                specs: ["Мощность: 780 Вт", "Диаметр бурения: 27 мм", "Энергия удара: 2.7 Дж", "Вес: 2.4 кг", "Режимы: сверление и удар"],
+                inStock: true,
+                image: "images/perforator.jpg"
+            },
+            {
+                id: 2,
+                name: "Виброплита RS-800",
+                price: 1200,
+                power: "5.5 л.с.",
+                desc: "Реверсивная виброплита для уплотнения грунта, щебня и асфальта. Отличная маневренность.",
+                specs: ["Центробежная сила: 18 кН", "Ширина плиты: 50 см", "Двигатель: бензиновый", "Вес: 95 кг", "Реверсивный ход"],
+                inStock: true,
+                image: "images/vibroplate.jpg"
+            },
+            {
+                id: 3,
+                name: "Дизель генератор 5 кВт",
+                price: 1100,
+                power: "5 кВт",
+                desc: "Дизельный генератор для питания инструмента на объектах без электричества. Низкий уровень шума.",
+                specs: ["Мощность: 5 кВт", "Розетки: 230В и 380В", "Автоматический запуск", "Уровень шума: 68 дБ"],
+                inStock: true,
+                image: "images/generator.jpg"
+            },
+            {
+                id: 4,
+                name: "Бетоносмеситель 200 л",
+                price: 700,
+                power: "750 Вт",
+                desc: "Электрический бетоносмеситель для бетона и растворов. Барабан из нержавейки.",
+                specs: ["Объем: 200 л", "Мощность: 750 Вт", "Частота вращения: 28 об/мин", "Барабан из нержавеющей стали"],
+                inStock: true,
+                image: "images/mixer.jpg"
+            },
+            {
+                id: 5,
+                name: "Штроборез Makita",
+                price: 800,
+                power: "1400 Вт",
+                desc: "Для штроб под проводку и трубы. Глубина реза регулируется.",
+                specs: ["Мощность: 1400 Вт", "Глубина реза: 25 мм", "Алмазные диски в комплекте"],
+                inStock: true,
+                image: "images/shtroborez.jpg"
+            },
+            {
+                id: 6,
+                name: "Отбойник Bosch",
+                price: 950,
+                power: "1500 Вт",
+                desc: "Для демонтажа и дробления бетона. Высокая энергия удара.",
+                specs: ["Мощность: 1500 Вт", "Энергия удара: 55 Дж", "Вес: 8.2 кг"],
+                inStock: true,
+                image: "images/otboynik.jpg"
+            }
+        ];
+
+        let currentModalItem = null;
+
+        function showMain() {
+            const container = document.getElementById('mainEquipment');
+            if (!container) return;
+            const itemsToShow = equipmentList.slice(0, 4);
+            container.innerHTML = itemsToShow.map(item => `
+                <div class="col-md-6 col-lg-3">
+                    <div class="card card-equip h-100" onclick="showEquipmentModal(${item.id})">
+                        <div class="card-img-top">
+                            <img src="${item.image}" 
+                                 alt="${item.name}"
+                                 onerror="this.parentElement.innerHTML='<div class=\\'no-image\\'><i class=\\'bi bi-tools\\'></i><small>${item.name}</small></div>'">
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="fw-bold">${item.name}</h5>
+                                <span class="price-badge">${item.price} руб/день</span>
+                            </div>
+                            <p class="text-secondary small">${item.desc.substring(0, 60)}...</p>
+                            <div class="text-muted small mt-2"><i class="bi bi-lightning-charge"></i> ${item.power}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showEquipmentModal(id) {
+            const item = equipmentList.find(e => e.id === id);
+            if (!item) return;
+            currentModalItem = item;
+
+            document.getElementById('modalTitle').innerText = item.name;
+            document.getElementById('modalPrice').innerHTML = item.price + ' ₽ <small class="fs-6 text-secondary">/ день</small>';
+            document.getElementById('modalDesc').innerText = item.desc;
+            document.getElementById('modalStock').innerText = item.inStock ? 'В наличии' : 'Нет в наличии';
+            document.getElementById('modalStock').className = `badge ${item.inStock ? 'bg-success' : 'bg-danger'}`;
+
+            const modalImg = document.getElementById('modalImage');
+            if (item.image) {
+                modalImg.src = item.image;
+                modalImg.style.display = 'block';
+                modalImg.onerror = function () { this.style.display = 'none'; };
+            } else {
+                modalImg.style.display = 'none';
+            }
+
+            const specsList = document.getElementById('modalSpecs');
+            specsList.innerHTML = item.specs.map(spec => `<li>${spec}</li>`).join('');
+
+            const modal = new bootstrap.Modal(document.getElementById('equipmentModal'));
+            modal.show();
+        }
+
+        async function rentFromModal() {
+            const auth = await checkAuthStatus();
+            if (!auth) {
+                alert('Войдите в аккаунт для аренды оборудования');
+                location.href = '/login';
+                return;
+            }
+            alert(`Заявка на аренду "${currentModalItem.name}" отправлена. Менеджер свяжется с вами.`);
+            const modal = bootstrap.Modal.getInstance(document.getElementById('equipmentModal'));
+            modal.hide();
+        }
+
+        async function checkAuthStatus() {
+            try {
+                const response = await fetch('/api/me');
+                const data = await response.json();
+                return data.authenticated;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/me');
+                const data = await response.json();
+                const authBlock = document.getElementById('authBlock');
+                const form = document.getElementById('callbackForm');
+                const message = document.getElementById('authMessage');
+
+                if (data.authenticated) {
+                    authBlock.innerHTML = `
+                        <span class="me-2 small">Здравствуйте, ${data.user.name}</span>
+                        <button class="btn btn-sm btn-danger rounded-pill" onclick="logout()">Выйти</button>
+                    `;
+                    if (form) form.style.display = 'block';
+                    if (message) message.style.display = 'none';
+                } else {
+                    authBlock.innerHTML = `
+                        <a href="/login" class="btn btn-sm btn-orange rounded-pill me-2">Войти</a>
+                        <a href="/register" class="btn btn-sm btn-outline-orange rounded-pill">Регистрация</a>
+                    `;
+                    if (form) form.style.display = 'none';
+                    if (message) message.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Ошибка проверки авторизации:', error);
+            }
+        }
+
+        async function logout() {
+            await fetch('/api/logout', { method: 'POST' });
+            window.location.reload();
+        }
+
+        // Обработка формы заказа
+        document.getElementById('callbackForm')?.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const name = document.getElementById('cbName').value;
+            const phone = document.getElementById('cbPhone').value;
+            const equipment = document.getElementById('cbEquipment').value;
+            const comment = document.getElementById('cbComment').value;
+
+            try {
+                const response = await fetch('/api/orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, phone, equipment, comment })
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    alert('Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.');
+                    this.reset();
+                } else if (data.errors) {
+                    alert('Ошибки в форме: ' + data.errors.join(', '));
+                } else {
+                    alert(data.message || 'Ошибка отправки заявки');
+                }
+            } catch (error) {
+                alert('Ошибка соединения с сервером');
+            }
+        });
+
+        // Модальное окно заказа звонка
+        document.getElementById('modalForm')?.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const name = document.getElementById('modalName').value;
+            const phone = document.getElementById('modalPhone').value;
+
+            try {
+                const response = await fetch('/api/orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, phone, equipment: 'Консультация', comment: 'Заказ звонка' })
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    alert('Заявка принята! Ждите звонка.');
+                    bootstrap.Modal.getInstance(document.getElementById('requestModal')).hide();
+                    this.reset();
+                } else {
+                    alert(data.message || 'Ошибка отправки заявки');
+                }
+            } catch (error) {
+                alert('Ошибка соединения с сервером');
+            }
+        });
+
+        // Кнопка "Вверх"
+        window.addEventListener('scroll', function () {
+            const btn = document.getElementById('scrollTopBtn');
+            if (window.scrollY > 300) {
+                btn.style.display = 'block';
+            } else {
+                btn.style.display = 'none';
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Инициализация
+        showMain();
+        checkAuth();
+    </script>
+</body>
+
+</html>

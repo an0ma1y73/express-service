@@ -1,0 +1,26 @@
+{
+  "users": {
+    "admin@example.com": {
+      "id": "19ed04ece0fe1b80e",
+      "name": "Администратор",
+      "email": "admin@example.com",
+      "passwordHash": "200143747528a1ca4772069a46bbbdecb6dedafb4c308a1772217558767c5abff28806db7e9afcb31aee098c9124477eca90f0da4e7e20ad4e65ea857d6811fd",
+      "salt": "cf65c8f26f8d7b3186c51e0441dbecb7",
+      "loginAttempts": 0,
+      "lockedUntil": null,
+      "createdAt": "2026-06-16T12:01:26.031Z"
+    }
+  },
+  "orders": [
+    {
+      "id": "19ed050c456b435aa",
+      "userId": "19ed04ece0fe1b80e",
+      "userName": "asdas",
+      "userPhone": "79230392040",
+      "equipmentName": "Перфоратор Makita",
+      "comment": "sdads",
+      "createdAt": "2026-06-16T12:03:34.614Z",
+      "status": "new"
+    }
+  ]
+}
