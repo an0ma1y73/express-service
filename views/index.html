@@ -446,7 +446,6 @@
                     <p class="text-secondary mb-4">Менеджер свяжется с вами для уточнения деталей и резервирования
                         техники.</p>
 
-                    <!-- Сообщение для неавторизованных -->
                     <div id="authMessage" class="alert alert-warning" style="display: none;">
                         Для отправки заявки <a href="/login" class="alert-link">войдите</a> или
                         <a href="/register" class="alert-link">зарегистрируйтесь</a>.
@@ -580,7 +579,6 @@
         </div>
     </div>
 
-    <!-- Кнопка "Вверх" -->
     <button id="scrollTopBtn" class="scroll-top" onclick="scrollToTop()">
         <i class="bi bi-chevron-up"></i>
     </button>
@@ -827,7 +825,6 @@
             window.location.reload();
         }
 
-        // Обработка формы заказа
         document.getElementById('callbackForm')?.addEventListener('submit', async function (e) {
             e.preventDefault();
             const name = document.getElementById('cbName').value;
@@ -856,7 +853,6 @@
             }
         });
 
-        // Модальное окно заказа звонка
         document.getElementById('modalForm')?.addEventListener('submit', async function (e) {
             e.preventDefault();
             const name = document.getElementById('modalName').value;
@@ -882,7 +878,6 @@
             }
         });
 
-        // Кнопка "Вверх"
         window.addEventListener('scroll', function () {
             const btn = document.getElementById('scrollTopBtn');
             if (window.scrollY > 300) {
@@ -896,7 +891,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Инициализация
         showMain();
         checkAuth();
     </script>

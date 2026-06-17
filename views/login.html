@@ -101,7 +101,6 @@
             }
         });
 
-        // Если уже авторизованы - редирект
         fetch('/api/me').then(r => r.json()).then(data => {
             if (data.authenticated) window.location.href = '/';
         }).catch(() => { });
