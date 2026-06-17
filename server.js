@@ -1,10 +1,8 @@
-// server.js - начало файла
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-// --- Конфигурация ---
 const PORT = process.env.PORT || 3000;
 const HOST = '0.0.0.0';
 const DATA_FILE = path.join(__dirname, 'data.json');
@@ -12,27 +10,25 @@ const SESSION_TIMEOUT = 30 * 60 * 1000;
 const BRUTE_FORCE_TIMEOUT = 15 * 60 * 1000;
 const MAX_LOGIN_ATTEMPTS = 3;
 
-// --- Инициализация базы данных ---
 let db = { users: {}, orders: [] };
 
 function loadDatabase() {
-    console.log(`📂 Путь к БД: ${DATA_FILE}`);
-    console.log(`📂 Файл существует: ${fs.existsSync(DATA_FILE)}`);
+    console.log(`Путь к БД: ${DATA_FILE}`);
+    console.log(`Файл существует: ${fs.existsSync(DATA_FILE)}`);
     
     try {
         if (fs.existsSync(DATA_FILE)) {
             const rawData = fs.readFileSync(DATA_FILE, 'utf8');
             db = JSON.parse(rawData);
-            console.log('✅ База данных загружена.');
-            console.log(`👥 Пользователей: ${Object.keys(db.users).length}`);
+            console.log('База данных загружена.');
+            console.log(`Пользователей: ${Object.keys(db.users).length}`);
         } else {
-            console.log('📁 Файл БД не найден. Создаем новую...');
+            console.log('Файл БД не найден. Создаем новую...');
             db = { users: {}, orders: [] };
         }
-        
-        // ✅ ВСЕГДА создаем тестового пользователя
+
         if (!db.users['admin@example.com']) {
-            console.log('👤 Создаю тестового пользователя...');
+            console.log('Создаю тестового пользователя...');
             const salt = generateSalt();
             const passwordHash = hashPassword('admin123', salt);
             db.users['admin@example.com'] = {
@@ -46,16 +42,15 @@ function loadDatabase() {
                 createdAt: new Date().toISOString()
             };
             saveDatabase();
-            console.log('✅ Создан тестовый пользователь: admin@example.com / admin123');
+            console.log('Создан тестовый пользователь: admin@example.com / admin123');
         } else {
-            console.log('✅ Тестовый пользователь уже существует');
+            console.log('Тестовый пользователь уже существует');
         }
         
-        console.log(`📊 Пользователи: ${Object.keys(db.users).join(', ')}`);
+        console.log(`Пользователи: ${Object.keys(db.users).join(', ')}`);
     } catch (error) {
-        console.error('❌ Ошибка загрузки БД:', error);
+        console.error('Ошибка загрузки БД:', error);
         db = { users: {}, orders: [] };
-        // Создаем пользователя принудительно
         const salt = generateSalt();
         const passwordHash = hashPassword('admin123', salt);
         db.users['admin@example.com'] = {
@@ -75,15 +70,12 @@ function loadDatabase() {
 function saveDatabase() {
     try {
         fs.writeFileSync(DATA_FILE, JSON.stringify(db, null, 2));
-        console.log('💾 База данных сохранена.');
+        console.log('База данных сохранена.');
     } catch (error) {
-        console.error('❌ Ошибка сохранения БД:', error);
+        console.error('Ошибка сохранения БД:', error);
     }
 }
 
-// Остальной код без изменений...
-
-// --- Хелперы ---
 function hashPassword(password, salt) {
     return crypto.pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
 }
@@ -115,13 +107,11 @@ function getClientIP(req) {
            'unknown';
 }
 
-// --- Работа с пользователями ---
 function registerUser(name, email, password) {
     if (db.users[email]) {
         return { success: false, message: 'Пользователь с таким email уже существует' };
     }
-    
-    // Валидация
+
     if (!name || name.trim().length < 2) {
         return { success: false, message: 'Имя должно содержать минимум 2 символа' };
     }
@@ -156,7 +146,6 @@ function authenticateUser(email, password, ip) {
         return { success: false, message: 'Пользователь не найден' };
     }
 
-    // Проверка блокировки
     if (user.lockedUntil && Date.now() < user.lockedUntil) {
         const remainingMinutes = Math.ceil((user.lockedUntil - Date.now()) / 60000);
         return { 
@@ -165,7 +154,6 @@ function authenticateUser(email, password, ip) {
         };
     }
 
-    // Сброс блокировки после истечения времени
     if (user.lockedUntil && Date.now() >= user.lockedUntil) {
         user.loginAttempts = 0;
         user.lockedUntil = null;
@@ -175,7 +163,6 @@ function authenticateUser(email, password, ip) {
     const passwordHash = hashPassword(password, user.salt);
 
     if (user.passwordHash === passwordHash) {
-        // Успешный вход: сброс попыток
         user.loginAttempts = 0;
         user.lockedUntil = null;
         saveDatabase();
@@ -184,9 +171,8 @@ function authenticateUser(email, password, ip) {
             user: { id: user.id, name: user.name, email: user.email } 
         };
     } else {
-        // Неудачная попытка
         user.loginAttempts = (user.loginAttempts || 0) + 1;
-        console.log(`⚠️ Неудачная попытка входа для ${email}. Попытка ${user.loginAttempts} из ${MAX_LOGIN_ATTEMPTS} (IP: ${ip})`);
+        console.log(`Неудачная попытка входа для ${email}. Попытка ${user.loginAttempts} из ${MAX_LOGIN_ATTEMPTS} (IP: ${ip})`);
         
         if (user.loginAttempts >= MAX_LOGIN_ATTEMPTS) {
             user.lockedUntil = Date.now() + BRUTE_FORCE_TIMEOUT;
@@ -202,7 +188,6 @@ function authenticateUser(email, password, ip) {
     }
 }
 
-// --- Работа с сессиями ---
 const sessions = {};
 
 function createSession(user) {
@@ -233,7 +218,6 @@ function deleteSession(token) {
     }
 }
 
-// --- Валидация заказов ---
 function validateOrderData(name, phone, equipment, comment) {
     const errors = [];
     if (!name || name.trim().length < 2) {
@@ -248,7 +232,6 @@ function validateOrderData(name, phone, equipment, comment) {
     return errors;
 }
 
-// --- Обработка статических файлов ---
 function serveStaticFile(filePath, res) {
     fs.readFile(filePath, (err, data) => {
         if (err) {
@@ -274,11 +257,9 @@ function serveStaticFile(filePath, res) {
     });
 }
 
-// --- Обработка API запросов ---
 function handleAPI(req, res, parsedUrl) {
     const pathname = parsedUrl.pathname;
 
-    // CORS заголовки для разработки
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -289,7 +270,6 @@ function handleAPI(req, res, parsedUrl) {
         return true;
     }
 
-    // --- Регистрация ---
     if (pathname === '/api/register' && req.method === 'POST') {
         let body = '';
         req.on('data', chunk => body += chunk);
@@ -312,7 +292,6 @@ function handleAPI(req, res, parsedUrl) {
         return true;
     }
 
-    // --- Вход ---
     if (pathname === '/api/login' && req.method === 'POST') {
         let body = '';
         req.on('data', chunk => body += chunk);
@@ -341,7 +320,6 @@ function handleAPI(req, res, parsedUrl) {
         return true;
     }
 
-    // --- Выход ---
     if (pathname === '/api/logout' && req.method === 'POST') {
         const cookies = parseCookies(req);
         const token = cookies.sessionToken;
@@ -354,7 +332,6 @@ function handleAPI(req, res, parsedUrl) {
         return true;
     }
 
-    // --- Проверка текущего пользователя ---
     if (pathname === '/api/me' && req.method === 'GET') {
         const cookies = parseCookies(req);
         const token = cookies.sessionToken;
@@ -373,7 +350,6 @@ function handleAPI(req, res, parsedUrl) {
         return true;
     }
 
-    // --- Создание заказа ---
     if (pathname === '/api/orders' && req.method === 'POST') {
         const cookies = parseCookies(req);
         const token = cookies.sessionToken;
@@ -421,7 +397,6 @@ function handleAPI(req, res, parsedUrl) {
         return true;
     }
 
-    // --- Получение заказов пользователя ---
     if (pathname === '/api/orders' && req.method === 'GET') {
         const cookies = parseCookies(req);
         const token = cookies.sessionToken;
@@ -439,23 +414,18 @@ function handleAPI(req, res, parsedUrl) {
         return true;
     }
 
-    // Если API роут не найден
     return false;
 }
 
-// --- Создание сервера ---
 const server = http.createServer((req, res) => {
     console.log(`${req.method} ${req.url}`);
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     const pathname = parsedUrl.pathname;
 
-    // 1. Проверяем API запросы
     if (pathname.startsWith('/api/')) {
         handleAPI(req, res, parsedUrl);
         return;
     }
-
-    // 2. Отдаем статические файлы (изображения, CSS, JS)
     if (pathname.startsWith('/images/') || 
         pathname.startsWith('/css/') || 
         pathname.startsWith('/js/')) {
@@ -464,7 +434,6 @@ const server = http.createServer((req, res) => {
         return;
     }
 
-    // 3. Отдаем HTML страницы
     let filePath = './views/error.html';
     if (pathname === '/') filePath = './views/index.html';
     else if (pathname === '/about') filePath = './views/about.html';
@@ -484,19 +453,17 @@ const server = http.createServer((req, res) => {
     });
 });
 
-// --- Запуск сервера ---
 loadDatabase();
 
 server.listen(PORT, HOST, () => {
-    console.log(`\n🚀 Сервер запущен на порту ${PORT}`);
-    console.log(`📊 База данных: ${DATA_FILE}`);
-    console.log(`👤 Тестовый пользователь: admin@example.com / admin123`);
-    console.log(`🔒 Блокировка после ${MAX_LOGIN_ATTEMPTS} неудачных попыток\n`);
+    console.log(`\nСервер запущен на порту ${PORT}`);
+    console.log(`База данных: ${DATA_FILE}`);
+    console.log(`Тестовый пользователь: admin@example.com / admin123`);
+    console.log(`Блокировка после ${MAX_LOGIN_ATTEMPTS} неудачных попыток\n`);
 });
-// Обработка завершения
 process.on('SIGINT', () => {
-    console.log('\n💾 Сохранение базы данных...');
+    console.log('\nСохранение базы данных...');
     saveDatabase();
-    console.log('👋 Сервер остановлен');
+    console.log('Сервер остановлен');
     process.exit(0);
 });

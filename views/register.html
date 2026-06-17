@@ -97,7 +97,6 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    // После регистрации сразу логиним пользователя
                     const loginResponse = await fetch('/api/login', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -107,7 +106,6 @@
                     if (loginData.success) {
                         window.location.href = '/';
                     } else {
-                        // Если не удалось войти, отправляем на страницу входа
                         window.location.href = '/login';
                     }
                 } else {
@@ -120,7 +118,6 @@
             }
         });
 
-        // Если уже авторизованы - редирект
         fetch('/api/me').then(r => r.json()).then(data => {
             if (data.authenticated) window.location.href = '/';
         }).catch(() => { });
