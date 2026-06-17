@@ -1,4 +1,4 @@
-// server.js
+// server.js - начало файла
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -8,33 +8,67 @@ const crypto = require('crypto');
 const PORT = process.env.PORT || 3000;
 const HOST = '0.0.0.0';
 const DATA_FILE = path.join(__dirname, 'data.json');
-const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 минут
-const BRUTE_FORCE_TIMEOUT = 15 * 60 * 1000; // 15 минут
+const SESSION_TIMEOUT = 30 * 60 * 1000;
+const BRUTE_FORCE_TIMEOUT = 15 * 60 * 1000;
 const MAX_LOGIN_ATTEMPTS = 3;
 
 // --- Инициализация базы данных ---
 let db = { users: {}, orders: [] };
 
 function loadDatabase() {
+    console.log(`📂 Путь к БД: ${DATA_FILE}`);
+    console.log(`📂 Файл существует: ${fs.existsSync(DATA_FILE)}`);
+    
     try {
         if (fs.existsSync(DATA_FILE)) {
             const rawData = fs.readFileSync(DATA_FILE, 'utf8');
             db = JSON.parse(rawData);
             console.log('✅ База данных загружена.');
+            console.log(`👥 Пользователей: ${Object.keys(db.users).length}`);
         } else {
-            console.log('📁 Файл базы данных не найден. Создаем новый...');
+            console.log('📁 Файл БД не найден. Создаем новую...');
             db = { users: {}, orders: [] };
         }
         
-        // ✅ ВСЕГДА создаем тестового пользователя (если его нет)
+        // ✅ ВСЕГДА создаем тестового пользователя
         if (!db.users['admin@example.com']) {
-            registerUser('Администратор', 'admin@example.com', 'admin123');
-            console.log('👤 Создан тестовый пользователь: admin@example.com / admin123');
+            console.log('👤 Создаю тестового пользователя...');
+            const salt = generateSalt();
+            const passwordHash = hashPassword('admin123', salt);
+            db.users['admin@example.com'] = {
+                id: Date.now().toString(16) + Math.random().toString(16).substring(2, 8),
+                name: 'Администратор',
+                email: 'admin@example.com',
+                passwordHash: passwordHash,
+                salt: salt,
+                loginAttempts: 0,
+                lockedUntil: null,
+                createdAt: new Date().toISOString()
+            };
+            saveDatabase();
+            console.log('✅ Создан тестовый пользователь: admin@example.com / admin123');
+        } else {
+            console.log('✅ Тестовый пользователь уже существует');
         }
+        
+        console.log(`📊 Пользователи: ${Object.keys(db.users).join(', ')}`);
     } catch (error) {
-        console.error('❌ Ошибка загрузки базы данных:', error);
+        console.error('❌ Ошибка загрузки БД:', error);
         db = { users: {}, orders: [] };
-        registerUser('Администратор', 'admin@example.com', 'admin123');
+        // Создаем пользователя принудительно
+        const salt = generateSalt();
+        const passwordHash = hashPassword('admin123', salt);
+        db.users['admin@example.com'] = {
+            id: Date.now().toString(16) + Math.random().toString(16).substring(2, 8),
+            name: 'Администратор',
+            email: 'admin@example.com',
+            passwordHash: passwordHash,
+            salt: salt,
+            loginAttempts: 0,
+            lockedUntil: null,
+            createdAt: new Date().toISOString()
+        };
+        saveDatabase();
     }
 }
 
@@ -43,9 +77,11 @@ function saveDatabase() {
         fs.writeFileSync(DATA_FILE, JSON.stringify(db, null, 2));
         console.log('💾 База данных сохранена.');
     } catch (error) {
-        console.error('❌ Ошибка сохранения базы данных:', error);
+        console.error('❌ Ошибка сохранения БД:', error);
     }
 }
+
+// Остальной код без изменений...
 
 // --- Хелперы ---
 function hashPassword(password, salt) {
