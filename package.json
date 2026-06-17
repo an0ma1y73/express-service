@@ -4,13 +4,7 @@
   "description": "Сайт аренды строительного оборудования",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "vercel-build": "echo hello"
+    "start": "node server.js"
   },
-  "dependencies": {
-    "http": "^0.0.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.0"
-  }
+  "dependencies": {}
 }
